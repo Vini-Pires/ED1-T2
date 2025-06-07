@@ -12,7 +12,7 @@ clean:
 #	del /f *.o
 
 run: 
-	./main
+	./principal
 
 # LINUX 
 # MAKE (CRIA E PREPARA ARQUIVOS .O)
