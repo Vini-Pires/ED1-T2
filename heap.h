@@ -21,5 +21,7 @@ int filhoEsq(int i);
 int filhoDir(int i);
 int estaVazio(MinHeap* heap);
 int estaCheio(MinHeap* heap);
+void inserirElemento(MinHeap* heap ,Elemento novoElemento); // funçao inserir elemento
+void subir(MinHeap* heap, int i);           // funçao que organiza heap das folhas p/ a raiz
 
 #endif

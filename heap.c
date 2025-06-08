@@ -68,3 +68,41 @@ int estaCheio(MinHeap* heap){
     return heap->tamanho == heap->capacidade; // RETORNA 1 SE FOR VERDADEIRA A CONDIÇÃO
                                               // E 0 SE FOR FALSO
 }
+
+void trocarElementos(MinHeap* heap, int i, int j) {
+    Elemento temp = heap->dados[i]; // Guarda o elemento de 'i' temporariamente
+    heap->dados[i] = heap->dados[j]; // Coloca o elemento de 'j' na posição 'i'
+    heap->dados[j] = temp;           // Coloca o elemento temporário (original de 'i') na posição 'j'
+}
+
+void subir(MinHeap* heap, int i) {
+    while (i > 0 && heap->dados[i].id < heap->dados[pai(i)].id) {  // se o elemento na posiçao i for menor que a do pai(i) e se o elemento nao for a raiz -> continua o loop
+      
+        trocarElementos(heap, i, pai(i));                          
+        i = pai(i);        // agora a posiçao de i passou a ser a que era de seu pai para que o loop funcione depois
+
+    }
+}
+
+void inserirElemento(MinHeap* heap, Elemento novoElemento) {
+    if (heap == NULL) { 
+        printf("Erro: Heap não inicializado. Não é possível inserir.\n");
+        return;
+    }
+
+    if (estaCheio(heap)) {
+        printf("Erro: Heap está cheio. Não é possível inserir o elemento (ID: %d, Nome: %s).\n", novoElemento.id, novoElemento.nome);
+
+        // COLOCAR A LOGICA PARA DOBRAR A CAPACIDADE !!!!!
+
+        return;
+    }
+
+    heap->dados[heap->tamanho] = novoElemento;  //Insere o novo elemento na primeira posição vazia 
+
+    heap->tamanho++;    //Incrementa o 'tamanho' do heap
+
+    subir(heap, heap->tamanho - 1);     // garantir que o elemento esta no lugar certo
+
+    printf("Elemento (ID: %d, Nome: %s) inserido com sucesso!\n", novoElemento.id, novoElemento.nome);
+}

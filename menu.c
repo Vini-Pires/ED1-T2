@@ -16,14 +16,33 @@ void menu(){
 
     do{
         printf("=-=-=-=-=-= MENU =-=-=-=-=-=\n");
-        printf("1 - Inserção\n2 - Remoção\n3 - Pesquisa rápida\n4 - Destruir Heap\n0 - Sair\n");
+        printf("1 - Inserção\n");
+        printf("2 - Remoção\n");
+        printf("3 - Pesquisa rápida\n");
+        printf("4 - Destruir Heap\n");
+        printf("0 - Sair\n");
         printf("Opcão: ");
         scanf("%i", &opcao);
         switch(opcao){
             case 1:
-                //InserirElemento(); 
-                //IMPLEMENTAR A MULTIPLICAÇÃO DA CAPACIDADE POR 2 NO INSERIR ELEMENTO
-                //AO CHEGAR NO TAMANHO MAX DE ALOCAÇÕES (10) DOBRA PRA (20)
+                { 
+                    Elemento novoElemento; // Declara uma variável do tipo Elemento
+
+                    printf("--- Inserir Novo Elemento ---\n");
+                    printf("Digite o ID (numero): ");
+                    scanf("%d", &novoElemento.id); // Lê o ID para o campo 'id' do novoElemento
+
+                    printf("Digite o Nome (max 29 caracteres): ");
+
+                    while (getchar() != '\n');      // Limpa o buffer do teclado
+
+                    scanf("%29s", novoElemento.nome);   // Le o nome
+
+                    inserirElemento(heap, novoElemento);
+
+                    printf("Pressione Enter para voltar ao menu \n");
+                    while (getchar() != '\n'); 
+                }
                 break;
             case 2:
                 
