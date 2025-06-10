@@ -1,18 +1,18 @@
-principal: principal.o
+main: main.o
 	@echo "Gerando arquivos executável"
-	gcc *.o -o principal
+	gcc *.o -o main
 
-principal.o: principal.c
+main.o: main.c
 	@echo "Compilando e gerando objetos"
 	gcc -c *.c
 
 clean: 
 	@echo "Apagando objetos e executáveis antigos..."
-	rm -f *.o principal
+	rm -f *.o main
 #	del /f *.o
 
 run: 
-	./principal
+	./main
 
 # LINUX 
 # MAKE (CRIA E PREPARA ARQUIVOS .O)
