@@ -5,12 +5,26 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+/**
+ * @brief Lê uma string do usuário e remove o caractere de nova linha.
+ * 
+ * @param string Vetor onde a string lida será armazenada.
+ * @param tamanho Tamanho máximo da string (incluindo '\0').
+ */
 void LeString(char string[], int tamanho){
     setbuf(stdin, NULL);
     fgets(string, tamanho, stdin);
     string[strcspn(string, "\n")] = '\0';
 } // LEITURA DE STRINGS DO USUARIO
 
+
+/**
+ * @brief Cria uma nova MinHeap com capacidade especificada.
+ * 
+ * @param capacidade Capacidade máxima de elementos da heap.
+ * @return Ponteiro para a nova MinHeap alocada.
+ */
 MinHeap* criarHeap(int capacidade){
     MinHeap* heap = malloc(sizeof(MinHeap));
     if(!heap){
@@ -34,6 +48,12 @@ MinHeap* criarHeap(int capacidade){
     return heap;
 }
 
+
+/**
+ * @brief Libera toda a memória alocada por uma MinHeap.
+ * 
+ * @param heap Ponteiro para a heap a ser destruída.
+ */
 void destruirHeap(MinHeap* heap){
     if(estaVazio(heap)){
         system("clear");
@@ -48,18 +68,46 @@ void destruirHeap(MinHeap* heap){
     printf("Heap destruida com sucesso!\n");
 }
 
+
+/**
+ * @brief Retorna o índice do nó pai de um dado índice.
+ * 
+ * @param i Índice do nó filho.
+ * @return Índice do nó pai.
+ */
 int pai(int i){
     return (i - 1) / 2;
 }
 
+
+/**
+ * @brief Retorna o índice do filho esquerdo de um dado índice.
+ * 
+ * @param i Índice do nó pai.
+ * @return Índice do filho esquerdo.
+ */
 int filhoEsq(int i){
     return 2 * i + 1;
 }
 
+
+/**
+ * @brief Retorna o índice do filho direito de um dado índice.
+ * 
+ * @param i Índice do nó pai.
+ * @return Índice do filho direito.
+ */
 int filhoDir(int i){
     return 2 * i + 2;
 }
 
+
+/**
+ * @brief Verifica se a heap está vazia.
+ * 
+ * @param heap Ponteiro para a heap.
+ * @return 1 se vazia ou NULL, 0 caso contrário.
+ */
 int estaVazio(MinHeap* heap){
     if(heap == NULL){
         return 1;
@@ -68,6 +116,13 @@ int estaVazio(MinHeap* heap){
                                // RETORNA 0 SE O TAMANHO FOR > 0
 }
 
+
+/**
+ * @brief Verifica se a heap está cheia.
+ * 
+ * @param heap Ponteiro para a heap.
+ * @return 1 se cheia, 0 caso contrário.
+ */
 int estaCheio(MinHeap* heap){
     if(heap == NULL){
         return 0;
@@ -76,12 +131,27 @@ int estaCheio(MinHeap* heap){
                                               // E 0 SE FOR FALSO
 }
 
+
+/**
+ * @brief Troca dois elementos de posição na heap.
+ * 
+ * @param heap Ponteiro para a heap.
+ * @param i Índice do primeiro elemento.
+ * @param j Índice do segundo elemento.
+ */
 void trocarElementos(MinHeap* heap, int i, int j){
     Elemento temp = heap->dados[i]; // Guarda o elemento de 'i' temporariamente
     heap->dados[i] = heap->dados[j]; // Coloca o elemento de 'j' na posição 'i'
     heap->dados[j] = temp;           // Coloca o elemento temporário (original de 'i') na posição 'j'
 }
 
+
+/**
+ * @brief Reorganiza a heap para manter a propriedade da MinHeap após inserção.
+ * 
+ * @param heap Ponteiro para a heap.
+ * @param i Índice do elemento a subir.
+ */
 void subir(MinHeap* heap, int i) {
     while (i > 0 && heap->dados[i].id < heap->dados[pai(i)].id) {  // se o elemento na posiçao i for menor que a do pai(i) e se o elemento nao for a raiz -> continua o loop
       
@@ -91,6 +161,13 @@ void subir(MinHeap* heap, int i) {
     }
 }
 
+
+/**
+ * @brief Insere um novo elemento na heap e reorganiza para manter a ordem.
+ * 
+ * @param heap Ponteiro para a heap.
+ * @param novoElemento Elemento a ser inserido.
+ */
 void inserirElemento(MinHeap* heap, Elemento novoElemento) {
     if (heap == NULL) { 
         printf("Erro: Heap não inicializado. Não é possível inserir.\n");
@@ -120,6 +197,12 @@ void inserirElemento(MinHeap* heap, Elemento novoElemento) {
     printf("Elemento (ID: %d, Nome: %s) inserido com sucesso!\n", novoElemento.id, novoElemento.nome);
 }
 
+
+/**
+ * @brief Exibe todos os elementos da heap no terminal.
+ * 
+ * @param heap Ponteiro para a heap.
+ */
 void ExibirHeap(MinHeap* heap){
     if(estaVazio(heap)){
         system("clear");
@@ -128,12 +211,18 @@ void ExibirHeap(MinHeap* heap){
     }
     printf("%-8s | %-4s | %s\n","Posição", "ID", "NOME");
     for(int i = 0; i < heap->tamanho; i++){
-        printf("%-7i - %-4i | %-20s\n", i+1, heap->dados[i].id, heap->dados[i].nome);
+        printf("%-7i - |%-4i| %-20s\n", i+1, heap->dados[i].id, heap->dados[i].nome);
     }
 
     return;
 }
 
+
+/**
+ * @brief Permite pesquisar elementos na heap por nome ou ID.
+ * 
+ * @param heap Ponteiro para a heap.
+ */
 void PesquisaRapida(MinHeap* heap){
     bool encontrado;
     int opcao, id;
@@ -194,6 +283,13 @@ void PesquisaRapida(MinHeap* heap){
     return;
 }
 
+
+/**
+ * @brief Reorganiza a heap para manter a propriedade da MinHeap após remoção.
+ * 
+ * @param heap Ponteiro para a heap.
+ * @param i Índice do elemento a descer.
+ */
 void descer(MinHeap* heap, int i){
     int menor = i;                    // Assume que o menor é o próprio nó atual (índice i)
     int esq = filhoEsq(i);        
@@ -218,6 +314,12 @@ void descer(MinHeap* heap, int i){
     // Se menor == i, significa que o nó está na posição correta, então nada é feito
 }
 
+
+/**
+ * @brief Remove um elemento da heap com base no ID ou nome.
+ * 
+ * @param heap Ponteiro para a heap.
+ */
 void RemoverElemento(MinHeap* heap){
     if(estaVazio(heap)){
         system("clear");
@@ -225,21 +327,57 @@ void RemoverElemento(MinHeap* heap){
         return;
     }
 
-    int id;
-    printf("Digite o id do elemento que deseja remover: ");
-    scanf("%d", &id);
+    int opcao,id,i;
+    char nome[30];
+    bool encontrado = false;
 
-    int i;
-    for(i = 0; i < heap->tamanho; i++){
-        if(heap->dados[i].id == id){
-            break;
+    printf("ID->| 1 | \n NOME->| 2 |\n ");
+    scanf("%d", &opcao);
+
+    do{
+
+            switch(opcao){
+        
+                case 1:
+        
+                    printf("Digite o ID que deseja remover: \n");
+                    scanf("%d", &id);
+        
+                        for(i = 0; i < heap->tamanho; i++){
+                            if(heap->dados[i].id == id){
+                                encontrado = true;
+                                break;
+                            }
+                        }
+        
+                    break;
+        
+                case 2:
+        
+                    printf("Digite o NOME  que deseja remover:\n ");
+                    LeString(nome, 30);
+                    for(i = 0; i < heap->tamanho; i++){
+                        if(strcmp(heap->dados[i].nome, nome) == 0){
+                            encontrado = true;
+                            break;
+                        }
+                    }
+        
+                    break;
+        
+                default:
+                printf("opção invalida!\n");
+                return;
+                    break;
+            }
+        
+        if(!encontrado){
+            printf("Elemento não encontrado.\n");
+            return;
         }
-    }
 
-    if(i == heap->tamanho){
-        printf("Elemento com id %d não encontrado.\n", id);
-        return;
-    }
+    }while(opcao < 1 || opcao > 2);
+
 
     Elemento removido = heap->dados[i];
 
